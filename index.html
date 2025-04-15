@@ -6,74 +6,12 @@
    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-   <canvas id="canvas"></canvas>
-   <script type="application/javascript">
-      var canvasWidth = window.innerWidth;
-      var canvasHeight = window.innerHeight;
-      var canvas = null;
-      var bounds = null;
-      var ctx = null;
-      var hasLoaded = false;
-   
-      var startX = 0;
-      var startY = 0;
-      var mouseX = 0;
-      var mouseY = 0;
-      var isDrawing = false;
-   
-      function draw() {
-         ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-   
-         // Draw preview line
-         if (isDrawing) {
-            ctx.strokeStyle = "black";
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.moveTo(startX, startY);
-            ctx.lineTo(mouseX, mouseY);
-            ctx.stroke();
-         }
-      }
-   
-      function onmousedown(e) {
-         if (hasLoaded && e.button === 0) {
-            const x = e.clientX - bounds.left;
-            const y = e.clientY - bounds.top;
-   
-            if (!isDrawing) {
-               startX = x;
-               startY = y;
-               isDrawing = true;
-            } else {
-               isDrawing = false;
-            }
-            draw();
-         }
-      }
-   
-      function onmousemove(e) {
-         if (hasLoaded) {
-            mouseX = e.clientX - bounds.left;
-            mouseY = e.clientY - bounds.top;
-            if (isDrawing) {
-               draw();
-            }
-         }
-      }
-   
-      window.onload = function () {
-         canvas = document.getElementById("canvas");
-         canvas.width = canvasWidth;
-         canvas.height = canvasHeight;
-         canvas.onmousedown = onmousedown;
-         canvas.onmousemove = onmousemove;
-   
-         bounds = canvas.getBoundingClientRect();
-         ctx = canvas.getContext("2d");
-         hasLoaded = true;
-   
-         draw();
-      };
-   </script>   
+   <canvas id="canvas" class="canvas"></canvas>
+   <div class="counter">
+      Fish caught: 
+      <span id="fishNumber">0</span>
+   </div>
 </body>
+
+<script src="./fishing.js"></script>
 </html>
