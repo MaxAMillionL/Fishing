@@ -1,3 +1,5 @@
-body {
-   cursor: url('America.jpg'), auto;
+* {
+   cursor: url('FishingRodSmallOutline.png'), auto;
+   background-image: url(ocean.gif);
+   background-size: 100vw 100vh;
 }
