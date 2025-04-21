@@ -10,6 +10,13 @@ var startY = 0;
 var mouseX = 0;
 var mouseY = 0;
 var isDrawing = false;
+var isMoving = false;
+var xdir = 0;
+var ydir = 0;
+let fishFunc = setInterval(fishing, 1000);
+let moveFunc = setInterval(moveFish, 100);
+clearInterval(fishFunc);
+clearInterval(moveFunc);
 
 function draw() {
    // clear canvas
@@ -34,9 +41,21 @@ function onmousedown(e) {
          startX = x;
          startY = y;
          isDrawing = true;
+         fishFunc = setInterval(fishing, 1000);
       } else {
+         clearInterval(fishFunc); // Always clear fishFunc when drawing stops
+
+         // Always clear moveFunc, regardless of isMoving
+         if (moveFunc) { 
+            clearInterval(moveFunc);
+         }
+         
+         if (isMoving) {  // Keep the isMoving check, though it's less critical now.
          counter = parseInt(document.getElementById("fishNumber").textContent);
          document.getElementById("fishNumber").textContent = counter + 1;
+         isMoving = false; 
+         }
+
          isDrawing = false;
       }
       draw();
@@ -53,11 +72,27 @@ function onmousemove(e) {
    }
 }
 
-setInterval(moveFish, 1000);
 function moveFish() {
-  if(isDrawing){
+
+   startX += xdir
+   startY += ydir
+   console.log(startX);
+   draw();
+   isMoving = true;
+}
+
+// setInterval(moveFish, 1000);
+
+function fishing() {
+   console.log("fishing...");
+   var num = Math.random();
+   if(num > .8 && isDrawing){
+      xdir = (Math.random() - .5) * Math.floor(Math.random() * 20);
+      ydir = (Math.random() - .5) * Math.floor(Math.random() * 20);
+      moveFunc = setInterval(moveFish, 100);
+      clearInterval(fishFunc);
+   }
    
-  }
 }
 
 window.onload = function () {
