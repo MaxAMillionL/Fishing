@@ -24,7 +24,13 @@ function draw() {
 
    // Draw preview line
    if (isDrawing) {
-      ctx.strokeStyle = "black";
+      if(isMoving){
+         ctx.strokeStyle = "red";
+      }
+      else{
+         ctx.strokeStyle = "black";
+      }
+      
       ctx.lineWidth = 2;
       ctx.beginPath();
       ctx.moveTo(startX, startY);
