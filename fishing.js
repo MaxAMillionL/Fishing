@@ -35,7 +35,7 @@ function onmousedown(e) {
          startY = y;
          isDrawing = true;
       } else {
-         counter = document.getElementById("fishNumber").textContent;
+         counter = parseInt(document.getElementById("fishNumber").textContent);
          document.getElementById("fishNumber").textContent = counter + 1;
          isDrawing = false;
       }
@@ -51,6 +51,13 @@ function onmousemove(e) {
          draw();
       }
    }
+}
+
+setInterval(moveFish, 1000);
+function moveFish() {
+  if(isDrawing){
+   
+  }
 }
 
 window.onload = function () {
