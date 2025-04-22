@@ -17,7 +17,7 @@ var reelXDir = 0;
 var reelYDir = 0;
 var percentNotBite = .9;
 var fishSpeed = 20;
-var deckHeight = 300;
+var deckHeight = 150;
 let fishFunc = setInterval(fishing, 1000);
 let moveFunc = setInterval(moveFish, 100);
 clearInterval(fishFunc);
@@ -77,8 +77,27 @@ function onmousemove(e) {
       mouseY = e.clientY;
       if (isDrawing) {
          draw();
+         // console.log(y)
+         // console.log(canvasHeight - deckHeight)
+         if(mouseY > canvasHeight || mouseY < canvasHeight - deckHeight){
+            isDrawing = false;
+            clearInterval(fishFunc); // stop fishing if reeled in
+   
+            if (moveFunc) { 
+               clearInterval(moveFunc); // stop moving fish
+            }
+            
+            if (isMoving) {  // add score if the fish was moving  
+               isMoving = false; 
+            }
+   
+            isDrawing = false; // stop drawing if not cast
+            draw();
+         }
       }
+      
    }
+   
 }
 
 function moveFish() {
