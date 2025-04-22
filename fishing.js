@@ -148,7 +148,7 @@ function reel() {
 
 document.addEventListener('keydown', function(event) {
    if (event.key === 'e') {
-      console.log(endTime - startTime);
+      // console.log(endTime - startTime);
       // console.log("hello");
       if(!reeling){
          startTime = new Date().getTime();
