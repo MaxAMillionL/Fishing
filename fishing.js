@@ -18,6 +18,7 @@ var reelYDir = 0;
 var percentNotBite = .9;
 var fishSpeed = 20;
 var deckHeight = 150;
+var lineTension = 0;
 let fishFunc = setInterval(fishing, 1000);
 let moveFunc = setInterval(moveFish, 100);
 clearInterval(fishFunc);
@@ -101,8 +102,8 @@ function onmousemove(e) {
 }
 
 function moveFish() {
-   startX += xdir
-   startY += ydir
+   startX += xdir;
+   startY += ydir - fishSpeed * .5;
    isMoving = true;
    if (isDrawing) {
       draw();
