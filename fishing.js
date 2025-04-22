@@ -13,6 +13,8 @@ var isDrawing = false;
 var isMoving = false;
 var xdir = 0;
 var ydir = 0;
+var reelXDir = 0;
+var reelYDir = 0;
 let fishFunc = setInterval(fishing, 1000);
 let moveFunc = setInterval(moveFish, 100);
 clearInterval(fishFunc);
@@ -45,7 +47,7 @@ function onmousedown(e) {
       const y = e.clientY;
       if (!isDrawing) {
          startX = x;
-         startY = y;
+         startY = y-100;
          isDrawing = true;
          fishFunc = setInterval(fishing, 1000);
       } else {
@@ -56,10 +58,8 @@ function onmousedown(e) {
             clearInterval(moveFunc);
          }
          
-         if (isMoving) {  // Keep the isMoving check, though it's less critical now.
-         counter = parseInt(document.getElementById("fishNumber").textContent);
-         document.getElementById("fishNumber").textContent = counter + 1;
-         isMoving = false; 
+         if (isMoving) {  // Keep the isMoving check, though it's less critical now.         
+            isMoving = false; 
          }
 
          isDrawing = false;
@@ -79,20 +79,62 @@ function onmousemove(e) {
 }
 
 function moveFish() {
-
    startX += xdir
    startY += ydir
-   console.log(startX);
+   // console.log(startX);
    draw();
    isMoving = true;
 }
 
+function reel() {
+   var xvector = mouseX - startX;
+   var yvector = mouseY - startY;
+   magnitude = Math.sqrt(xvector * xvector + yvector * yvector);
+   xvector /= magnitude;
+   yvector /= magnitude;
+   xvector *= 5;
+   yvector *= 5;
+   startX += xvector;
+   startY += yvector;
+   if(magnitude < 10 && isDrawing){
+      isDrawing = false;
+      
+      if(isMoving){
+         counter = parseInt(document.getElementById("fishNumber").textContent);
+         document.getElementById("fishNumber").textContent = counter + 1;
+         isMoving = false;
+      }
+      clearInterval(fishFunc); // Always clear fishFunc when drawing stops
+
+      // Always clear moveFunc, regardless of isMoving
+      if (moveFunc) { 
+         clearInterval(moveFunc);
+      }
+      
+      if (isMoving) {  // Keep the isMoving check, though it's less critical now.         
+         isMoving = false; 
+      }
+
+      isDrawing = false;
+      draw()
+   }
+   draw()
+}
+
+document.addEventListener('keydown', function(event) {
+   
+   if (event.key === 'e') {
+      console.log("hello");
+     reel();
+   }
+ });
+
 // setInterval(moveFish, 1000);
 
 function fishing() {
-   console.log("fishing...");
+   // console.log("fishing...");
    var num = Math.random();
-   if(num > .8 && isDrawing){
+   if(num > .9 && isDrawing){
       xdir = (Math.random() - .5) * Math.floor(Math.random() * 20);
       ydir = (Math.random() - .5) * Math.floor(Math.random() * 20);
       moveFunc = setInterval(moveFish, 100);
