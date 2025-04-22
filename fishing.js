@@ -137,11 +137,11 @@ function reel() {
    startY += yvector;
    reeling = true;
    if(magnitude < 10 && isDrawing){
-      clear()
       if(isMoving){
          counter = parseInt(document.getElementById("fishNumber").textContent);
          document.getElementById("fishNumber").textContent = counter + 1;    
       }
+      clear()
    }
    draw() // final draw to get rid of pesky lines
 }
