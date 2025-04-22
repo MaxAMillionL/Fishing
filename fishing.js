@@ -19,6 +19,10 @@ var percentNotBite = .9;
 var fishSpeed = 20;
 var deckHeight = 150;
 var lineTension = 0;
+var reeling = false;
+var startTime = 0;
+var endTime = 0;
+var tension = 3000;
 let fishFunc = setInterval(fishing, 1000);
 let moveFunc = setInterval(moveFish, 100);
 clearInterval(fishFunc);
@@ -55,18 +59,7 @@ function onmousedown(e) {
          isDrawing = true;
          fishFunc = setInterval(fishing, 1000);
       } else {
-         clearInterval(fishFunc); // Always clear fishFunc when drawing stops
-
-         // Always clear moveFunc, regardless of isMoving
-         if (moveFunc) { 
-            clearInterval(moveFunc);
-         }
-         
-         if (isMoving) {  // Keep the isMoving check, though it's less critical now.         
-            isMoving = false; 
-         }
-
-         isDrawing = false;
+         clear()
       }
       draw();
    }
@@ -117,6 +110,21 @@ function moveFish() {
 
 }
 
+function clear(){
+   isDrawing = false;
+   clearInterval(fishFunc); // stop fishing if reeled in
+
+   if (moveFunc) { 
+      clearInterval(moveFunc); // stop moving fish
+   }
+   
+   if (isMoving) {  // add score if the fish was moving
+      isMoving = false; 
+   }
+
+   isDrawing = false; // stop drawing if not cast
+}
+
 function reel() {
    var xvector = mouseX - startX;
    var yvector = mouseY - startY;
@@ -127,29 +135,42 @@ function reel() {
    yvector *= 5;
    startX += xvector;
    startY += yvector;
+   reeling = true;
    if(magnitude < 10 && isDrawing){
-      isDrawing = false;
-      clearInterval(fishFunc); // stop fishing if reeled in
-
-      if (moveFunc) { 
-         clearInterval(moveFunc); // stop moving fish
-      }
-      
-      if (isMoving) {  // add score if the fish was moving
+      clear()
+      if(isMoving){
          counter = parseInt(document.getElementById("fishNumber").textContent);
-         document.getElementById("fishNumber").textContent = counter + 1;     
-         isMoving = false; 
+         document.getElementById("fishNumber").textContent = counter + 1;    
       }
-
-      isDrawing = false; // stop drawing if not cast
    }
    draw() // final draw to get rid of pesky lines
 }
 
 document.addEventListener('keydown', function(event) {
    if (event.key === 'e') {
+      console.log(endTime - startTime);
       // console.log("hello");
-     reel();
+      if(!reeling){
+         startTime = new Date().getTime();
+      }
+      if(reeling){
+         endTime = new Date().getTime();
+         if(endTime - startTime >= tension){
+            clear();
+            reeling = false;
+         }
+      }
+      reel();
+      
+      
+   }
+ });
+
+ document.addEventListener('keyup', function(event){
+   if (event.key === 'e') {
+      // console.log("hello");
+      startTime = new Date().getTime();
+      reeling = false;
    }
  });
 
