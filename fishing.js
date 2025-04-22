@@ -107,6 +107,13 @@ function moveFish() {
    if (isDrawing) {
       draw();
    }
+   var num = Math.random();
+   var percentMove = percentNotBite;
+   if(num > percentNotBite){
+      xdir = (Math.random() - .5) * Math.floor(Math.random() * fishSpeed); // random x
+      ydir = (Math.random() - .5) * Math.floor(Math.random() * fishSpeed); // random y
+   }
+
 }
 
 function reel() {
