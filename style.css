@@ -32,4 +32,7 @@
 p{
    background: transparent;
    border-radius: 0;
-}h
+   color: black;
+   text-shadow: white 1px 0px 10px;
+   /* text-shadow: 2px w; */
+}
