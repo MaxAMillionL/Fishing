@@ -15,6 +15,9 @@ var xdir = 0;
 var ydir = 0;
 var reelXDir = 0;
 var reelYDir = 0;
+var percentNotBite = .9;
+var fishSpeed = 20;
+var deckHeight = 300;
 let fishFunc = setInterval(fishing, 1000);
 let moveFunc = setInterval(moveFish, 100);
 clearInterval(fishFunc);
@@ -45,9 +48,9 @@ function onmousedown(e) {
    if (hasLoaded && e.button === 0) {
       const x = e.clientX;
       const y = e.clientY;
-      if (!isDrawing) {
+      if (!isDrawing && y < canvasHeight && y > canvasHeight - deckHeight) {
          startX = x;
-         startY = y-100;
+         startY = y - canvasHeight + deckHeight;
          isDrawing = true;
          fishFunc = setInterval(fishing, 1000);
       } else {
@@ -81,9 +84,10 @@ function onmousemove(e) {
 function moveFish() {
    startX += xdir
    startY += ydir
-   // console.log(startX);
-   draw();
    isMoving = true;
+   if (isDrawing) {
+      draw();
+   }
 }
 
 function reel() {
@@ -98,46 +102,37 @@ function reel() {
    startY += yvector;
    if(magnitude < 10 && isDrawing){
       isDrawing = false;
-      
-      if(isMoving){
-         counter = parseInt(document.getElementById("fishNumber").textContent);
-         document.getElementById("fishNumber").textContent = counter + 1;
-         isMoving = false;
-      }
-      clearInterval(fishFunc); // Always clear fishFunc when drawing stops
+      clearInterval(fishFunc); // stop fishing if reeled in
 
-      // Always clear moveFunc, regardless of isMoving
       if (moveFunc) { 
-         clearInterval(moveFunc);
+         clearInterval(moveFunc); // stop moving fish
       }
       
-      if (isMoving) {  // Keep the isMoving check, though it's less critical now.         
+      if (isMoving) {  // add score if the fish was moving
+         counter = parseInt(document.getElementById("fishNumber").textContent);
+         document.getElementById("fishNumber").textContent = counter + 1;     
          isMoving = false; 
       }
 
-      isDrawing = false;
-      draw()
+      isDrawing = false; // stop drawing if not cast
    }
-   draw()
+   draw() // final draw to get rid of pesky lines
 }
 
 document.addEventListener('keydown', function(event) {
-   
    if (event.key === 'e') {
-      console.log("hello");
+      // console.log("hello");
      reel();
    }
  });
 
-// setInterval(moveFish, 1000);
 
 function fishing() {
-   // console.log("fishing...");
    var num = Math.random();
-   if(num > .9 && isDrawing){
-      xdir = (Math.random() - .5) * Math.floor(Math.random() * 20);
-      ydir = (Math.random() - .5) * Math.floor(Math.random() * 20);
-      moveFunc = setInterval(moveFish, 100);
+   if(num > percentNotBite && isDrawing){
+      xdir = (Math.random() - .5) * Math.floor(Math.random() * fishSpeed); // random x
+      ydir = (Math.random() - .5) * Math.floor(Math.random() * fishSpeed); // random y
+      moveFunc = setInterval(moveFish, 100); // start moving the fish
       clearInterval(fishFunc);
    }
    

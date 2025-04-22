@@ -6,16 +6,25 @@
    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+   <canvas id="canvas" class="canvas">
+      
+   </canvas>
    <audio hidden controls>
       <source src="ocean.mp3">
       <source src="ocean.wav">
-    </audio>
-   <canvas id="canvas" class="canvas"></canvas>
+   </audio>
    <div class="counter">
       Fish caught: 
       <span id="fishNumber">0</span>
-      (hold e to reel)
+      
    </div>
+   <div class="instructions">
+      <p>(hold e to reel)</p>
+      <p>(cast from bottom of screen)</p>
+      <p>(stay on bottom of screen)</p>
+      <p>(don't hold e too long)</p>
+   </div>
+   
 </body>
 
 <script src="./fishing.js"></script>
