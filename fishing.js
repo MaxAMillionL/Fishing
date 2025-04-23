@@ -16,13 +16,15 @@ var ydir = 0;
 var reelXDir = 0;
 var reelYDir = 0;
 var percentNotBite = .9;
-var fishSpeed = 20;
+var fishSpeed = canvasHeight/100;
 var deckHeight = 150;
 var lineTension = 0;
 var reeling = false;
 var startTime = 0;
 var endTime = 0;
 var tension = 3000;
+var reelspeed = fishSpeed * .75;
+var delay = 40;
 let fishFunc = setInterval(fishing, 1000);
 let moveFunc = setInterval(moveFish, 100);
 clearInterval(fishFunc);
@@ -131,8 +133,8 @@ function reel() {
    magnitude = Math.sqrt(xvector * xvector + yvector * yvector);
    xvector /= magnitude;
    yvector /= magnitude;
-   xvector *= 5;
-   yvector *= 5;
+   xvector *= reelspeed;
+   yvector *= reelspeed;
    startX += xvector;
    startY += yvector;
    reeling = true;
@@ -159,10 +161,8 @@ document.addEventListener('keydown', function(event) {
             clear();
             reeling = false;
          }
-      }
+      }  
       reel();
-      
-      
    }
  });
 
@@ -180,7 +180,7 @@ function fishing() {
    if(num > percentNotBite && isDrawing){
       xdir = (Math.random() - .5) * Math.floor(Math.random() * fishSpeed); // random x
       ydir = (Math.random() - .5) * Math.floor(Math.random() * fishSpeed); // random y
-      moveFunc = setInterval(moveFish, 100); // start moving the fish
+      moveFunc = setInterval(moveFish, delay); // start moving the fish
       clearInterval(fishFunc);
    }
    
