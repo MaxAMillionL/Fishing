@@ -148,44 +148,44 @@ function reel() {
    draw() // final draw to get rid of pesky lines
 }
 
-// document.addEventListener('keydown', function(event) {
-//    if (event.key === 'e') {
-//       // console.log(endTime - startTime);
-//       // console.log("hello");
-//       if(!reeling){
-//          startTime = new Date().getTime();
-//       }
-//       if(reeling){
-//          endTime = new Date().getTime();
-//          if(endTime - startTime >= tension){
-//             clear();
-//             reeling = false;
-//          }
-//       }  
-//       reel();
-//    }
-//  });
-
-// document.addEventListener('keyup', function(event){
-// if (event.key === 'e') {
-//    // console.log("hello");
-//    startTime = new Date().getTime();
-//    reeling = false;
-// }
-// });
-
 document.addEventListener('keydown', function(event) {
-   if (!reeling && (event.key === 'e' || event.key === 'w' || event.key === ' ')) {
+   if (event.key === 'e') {
+      // console.log(endTime - startTime);
+      // console.log("hello");
+      if(!reeling){
+         startTime = new Date().getTime();
+      }
+      if(reeling){
+         endTime = new Date().getTime();
+         if(endTime - startTime >= tension){
+            clear();
+            reeling = false;
+         }
+      }  
       reel();
-      reeling = true;
    }
-});
+ });
 
 document.addEventListener('keyup', function(event){
-   if (event.key === 'e' || event.key === 'w' || event.key === ' ') {
-      reeling = false;
-   }
+if (event.key === 'e') {
+   // console.log("hello");
+   startTime = new Date().getTime();
+   reeling = false;
+}
 });
+
+// document.addEventListener('keydown', function(event) {
+//    if (!reeling && (event.key === 'e' || event.key === 'w' || event.key === ' ')) {
+//       reel();
+//       reeling = true;
+//    }
+// });
+
+// document.addEventListener('keyup', function(event){
+//    if (event.key === 'e' || event.key === 'w' || event.key === ' ') {
+//       reeling = false;
+//    }
+// });
 
 
 
