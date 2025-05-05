@@ -23,7 +23,7 @@ var reeling = false;
 var startTime = 0;
 var endTime = 0;
 var tension = 3000;
-var reelspeed = fishSpeed * .75;
+var reelspeed = fishSpeed * 2.2;
 var delay = 40;
 let fishFunc = setInterval(fishing, 1000);
 let moveFunc = setInterval(moveFish, 100);
@@ -148,31 +148,45 @@ function reel() {
    draw() // final draw to get rid of pesky lines
 }
 
-document.addEventListener('keydown', function(event) {
-   if (event.key === 'e') {
-      // console.log(endTime - startTime);
-      // console.log("hello");
-      if(!reeling){
-         startTime = new Date().getTime();
-      }
-      if(reeling){
-         endTime = new Date().getTime();
-         if(endTime - startTime >= tension){
-            clear();
-            reeling = false;
-         }
-      }  
-      reel();
-   }
- });
+// document.addEventListener('keydown', function(event) {
+//    if (event.key === 'e') {
+//       // console.log(endTime - startTime);
+//       // console.log("hello");
+//       if(!reeling){
+//          startTime = new Date().getTime();
+//       }
+//       if(reeling){
+//          endTime = new Date().getTime();
+//          if(endTime - startTime >= tension){
+//             clear();
+//             reeling = false;
+//          }
+//       }  
+//       reel();
+//    }
+//  });
 
- document.addEventListener('keyup', function(event){
-   if (event.key === 'e') {
-      // console.log("hello");
-      startTime = new Date().getTime();
+// document.addEventListener('keyup', function(event){
+// if (event.key === 'e') {
+//    // console.log("hello");
+//    startTime = new Date().getTime();
+//    reeling = false;
+// }
+// });
+
+document.addEventListener('keydown', function(event) {
+   if (!reeling && (event.key === 'e' || event.key === 'w' || event.key === ' ')) {
+      reel();
+      reeling = true;
+   }
+});
+
+document.addEventListener('keyup', function(event){
+   if (event.key === 'e' || event.key === 'w' || event.key === ' ') {
       reeling = false;
    }
- });
+});
+
 
 
 function fishing() {
